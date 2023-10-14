@@ -5,6 +5,7 @@
 package controller;
 
 import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  *
@@ -17,6 +18,11 @@ public class Server {
     public Server () {
         try {
             ss = new ServerSocket(PORT);
+            
+            while (true) {                
+                Socket soc = ss.accept();
+                new ServerThread(soc);
+            }           
             
         } catch (Exception e) {
             
