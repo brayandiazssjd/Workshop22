@@ -4,6 +4,8 @@
  */
 package controller;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -12,16 +14,15 @@ import java.net.Socket;
  * @author Estudiantes
  */
 public class Server {
-    private ServerSocket ss;
-    private int PORT = 5000;
-    
+    private static final int INPUT_PORT = 5000;
+    private ServerSocket sesoc;
     public Server () {
         try {
-            ss = new ServerSocket(PORT);
+            sesoc = new ServerSocket(INPUT_PORT);
             
             while (true) {                
-                Socket soc = ss.accept();
-                new ServerThread(soc);
+                Socket soc = sesoc.accept();
+                (new ServerThread(soc)).start();
             }           
             
         } catch (Exception e) {
