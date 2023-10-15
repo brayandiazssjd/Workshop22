@@ -8,8 +8,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,34 +18,36 @@ import java.net.Socket;
  */
 public class ServerThread extends Thread {
 
-    private Socket sout;
-    private Socket sin;
-    private static final int OUTPUT_PORT = 5001;
+    private Socket soc;
     private PrintWriter out;
     private BufferedReader in;
 
     public ServerThread(Socket soc) {
-        this.sin = soc;
+        this.soc = soc;
 
         try {
-            initInput();
-            initOutput();
+            initCommunication();
 
-            while (true) {
-                String input = in.readLine();
-                out.println(input);
-            }
         } catch (IOException e) {
         }
     }
 
-    private void initInput() throws IOException {
-        in = new BufferedReader(new InputStreamReader(sin.getInputStream()));
+    private void initCommunication () throws IOException {
+        in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
+        out = new PrintWriter(soc.getOutputStream(), true);
 
     }
-
-    private void initOutput() throws IOException {
-        sout = new Socket(sin.getInetAddress(), OUTPUT_PORT);
-        out = new PrintWriter(sout.getOutputStream(), true);
+    
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                String input = in.readLine();
+                out.println(input);
+            } catch (IOException ex) {
+                Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
+
 }

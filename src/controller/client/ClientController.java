@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,12 +21,9 @@ public class ClientController {
     /**
      * Fields.
      */
-    private static final int OUTPUT_PORT = 5000;
-    private static final int INPUT_PORT = 5001;
+    private static final int PORT = 5000;
     private static final String HOST = "localhost";
-    private Socket sout;
-    private Socket sin;
-    private ServerSocket sesoc;
+    private Socket soc;    
     private PrintWriter out;
     private BufferedReader in;
     
@@ -36,8 +32,7 @@ public class ClientController {
      */
     public ClientController () {
         try {
-            initOutput();
-            initInput();
+            initCommunication();
             
             BufferedReader kin = new BufferedReader(new InputStreamReader(System.in)); //keyboard input
             
@@ -56,19 +51,10 @@ public class ClientController {
      * Initialize the inputStream stream channel.
      * @throws IOException 
      */
-    private void initInput () throws IOException {
-        sesoc = new ServerSocket(INPUT_PORT);
-        sin = sesoc.accept();
-        in = new BufferedReader(new InputStreamReader(sin.getInputStream()));        
-    }
-    
-    /**
-     * Initialize the output stream channel.
-     * @throws IOException 
-     */
-    private void initOutput () throws IOException {
-        sout = new Socket(HOST, OUTPUT_PORT);
-        out = new PrintWriter(sout.getOutputStream(), true);
+    private void initCommunication () throws IOException {
+        soc = new Socket(HOST, PORT);
+        in = new BufferedReader(new InputStreamReader(soc.getInputStream()));        
+        out = new PrintWriter(soc.getOutputStream(), true);
     }
     
     public static void main(String[] args) {

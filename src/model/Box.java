@@ -4,21 +4,34 @@
  */
 package model;
 
+import java.io.BufferedReader;
+
 /**
  *
  * @author Estudiantes
  */
 public class Box {
+    
+    // Attributes
     private int row;
     private int col;
     private String image;
 
+    /**
+     * Constructor.
+     * @param row
+     * @param col
+     * @param image 
+     */
     public Box(int row, int col, String image) {
         this.row = row;
         this.col = col;
-        this.image = image;
+        this.image = image; 
+        
     }
 
+    // Getters & Setters.
+    
     public int getRow() {
         return row;
     }
