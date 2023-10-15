@@ -25,4 +25,6 @@ replay_pid*
 
 # Private xml
 private.xml
+private.properties
+
 /build/

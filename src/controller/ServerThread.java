@@ -18,14 +18,16 @@ import java.util.logging.Logger;
  */
 public class ServerThread extends Thread {
 
-    private Socket soc;
+    private Socket sin;
+    private Socket sout;
     private PrintWriter out;
     private BufferedReader in;
 
-    public ServerThread(Socket soc) {
-        this.soc = soc;
-
+    public ServerThread(Socket sin, Socket sout) {
+        this.sin = sin;
+        this.sout = sout;
         try {
+            
             initCommunication();
 
         } catch (IOException e) {
@@ -33,8 +35,8 @@ public class ServerThread extends Thread {
     }
 
     private void initCommunication () throws IOException {
-        in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
-        out = new PrintWriter(soc.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(sin.getInputStream()));
+        out = new PrintWriter(sout.getOutputStream(), true);
 
     }
     

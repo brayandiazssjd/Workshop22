@@ -21,9 +21,11 @@ public class ClientController {
     /**
      * Fields.
      */
-    private static final int PORT = 5000;
+    private static int INPUT_PORT = 5001;
+    private static int OUTPUT_PORT = 5000;
     private static final String HOST = "localhost";
-    private Socket soc;    
+    private Socket sin;
+    private Socket sout;
     private PrintWriter out;
     private BufferedReader in;
     
@@ -52,9 +54,10 @@ public class ClientController {
      * @throws IOException 
      */
     private void initCommunication () throws IOException {
-        soc = new Socket(HOST, PORT);
-        in = new BufferedReader(new InputStreamReader(soc.getInputStream()));        
-        out = new PrintWriter(soc.getOutputStream(), true);
+        sin = new Socket(HOST, INPUT_PORT);
+        sout = new Socket(HOST, OUTPUT_PORT);
+        in = new BufferedReader(new InputStreamReader(sin.getInputStream()));        
+        out = new PrintWriter(sout.getOutputStream(), true);
     }
     
     public static void main(String[] args) {

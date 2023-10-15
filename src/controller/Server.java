@@ -12,17 +12,22 @@ import java.net.Socket;
  * @author Estudiantes
  */
 public class Server {
-    private static final int PORT = 5000;
-    private ServerSocket sesoc;
+    
+    private static final int INPUT_PORT = 5000;
+    private static int OUTPUT_PORT = 5001;
+    private ServerSocket servin;
+    private ServerSocket servout;
+    
     public Server () {
         try {
-            sesoc = new ServerSocket(PORT);
-            
+            servin = new ServerSocket(INPUT_PORT);
+            servout = new ServerSocket(OUTPUT_PORT);
+        
             while (true) {                
-                Socket soc = sesoc.accept();
-                (new ServerThread(soc)).start();
-            }           
-            
+                Socket sin = servin.accept();
+                Socket out = servout.accept();
+                (new ServerThread(sin, out)).start();
+            }            
         } catch (Exception e) {
             
         }
